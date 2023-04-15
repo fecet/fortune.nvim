@@ -1,45 +1,19 @@
-# A Neovim Plugin Template
+# A simple fortune in neovim
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ellisonleao/nvim-plugin-template/default.yml?branch=main&style=for-the-badge)
-![Lua](https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua)
+## Install and usage
 
-A template repository for Neovim plugins.
+Install with any plugin manager and lazyload it since purpose of this plugin is just to provide a function:
 
-## Using it
-
-Via `gh`:
-
+```lua
+local function footer()
+    local stats = require("lazy").stats()
+    local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+    local str = "   " .. stats.count .. " plugins in " .. ms .. "ms"
+    return vim.list_extend({ "", str, "" }, require("fortune").fortune(true))
+end
 ```
-$ gh repo create my-plugin -p ellisonleao/nvim-plugin-template
-```
 
-Via github web page:
-
-Click on `Use this template`
-
-![](https://docs.github.com/assets/cb-36544/images/help/repository/use-this-template-button.png)
-
-## Features and structure
-
-- 100% Lua
-- Github actions to run tests and check for formatting errors (Stylua)
-- Tests created with [busted](https://olivinelabs.com/busted/) + [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
-- luarocks release support (LUAROCKS_API_KEY secret configuration required)
-
-### Plugin structure
-
-```
-.
-├── lua
-│   ├── plugin_name
-│   │   └── module.lua
-│   └── plugin_name.lua
-├── Makefile
-├── plugin
-│   └── plugin_name.lua
-├── README.md
-├── tests
-│   ├── minimal_init.lua
-│   └── plugin_name
-│       └── plugin_name_spec.lua
+If you just need a string, use:
+```lua
+require("fortune").fortune()
 ```
